@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Portfolio | ครูผู้สอนด้านเทคโนโลยีและการเขียนโปรแกรม</title>
+    <!-- นำเข้าฟอนต์ Prompt จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ตั้งค่าตัวแปรสีหลัก (ธีมน้ำเงิน-ขาว) */
+        :root {
+            --primary-blue: #1e40af;      /* น้ำเงินเข้ม */
+            --secondary-blue: #3b82f6;    /* น้ำเงินสว่าง */
+            --light-blue: #eff6ff;        /* ฟ้าอ่อนมากสำหรับพื้นหลัง */
+            --accent-blue: #dbeafe;       /* ฟ้าอ่อนสำหรับขอบ/ป้ายกำกับ */
+            --text-dark: #1e293b;         /* เทาเข้มเกือบดำสำหรับตัวอักษรหลัก */
+            --text-muted: #64748b;        /* เทาสำหรับตัวอักษรรอง */
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(30, 64, 175, 0.15), 0 4px 6px -2px rgba(30, 64, 175, 0.08);
+        }
+
+        /* รีเซ็ตค่าเริ่มต้น */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* แถบเมนูนำทาง (Navbar) */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--secondary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-blue);
+        }
+
+        .btn-github-nav {
+            background-color: var(--primary-blue);
+            color: var(--white) !important;
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.9rem !important;
+            transition: background-color 0.3s, transform 0.2s !important;
+        }
+
+        .btn-github-nav:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-2px);
+        }
+
+        /* ปุ่มเมนูสำหรับมือถือ */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* โครงสร้างแต่ละส่วน (Section) */
+        section {
+            padding: 5.5rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .underline {
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary-blue);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* 1. ส่วนหน้าแรก (Hero Section) */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            padding-top: 7rem;
+            background: linear-gradient(135deg, var(--white) 60%, var(--light-blue) 100%);
+            max-width: 100%;
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            width: 100%;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--primary-blue);
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            line-height: 1.25;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary-blue);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light-blue);
+        }
+
+        .hero-image {
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-frame {
+            width: 320px;
+            height: 320px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            padding: 8px;
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-blue);
+            border-radius: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* 2. ส่วนแนะนำตัว (About) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-text h3 {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .info-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .info-list li {
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-list strong {
+            color: var(--primary-blue);
+            min-width: 120px;
+        }
+
+        .skills-box {
+            background-color: var(--light-blue);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .skills-box h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1.2rem;
+            font-size: 1.25rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .skill-tag {
+            background-color: var(--white);
+            color: var(--primary-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        /* 3. ส่วนผลงาน (Portfolio Cards) */
+        #portfolio {
+            background-color: var(--light-blue);
+            max-width: 100%;
+        }
+
+        .portfolio-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(219, 234, 254, 0.8);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header-banner {
+            height: 140px;
+            background: linear-gradient(120deg, var(--primary-blue), var(--secondary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--secondary-blue);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-body h3 {
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .card-link:hover {
+            color: var(--secondary-blue);
+            text-decoration: underline;
+        }
+
+        /* 4. ส่วนกิจกรรม (Activities) */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .activity-item {
+            background-color: var(--white);
+            border-left: 5px solid var(--primary-blue);
+            padding: 1.5rem 2rem;
+            border-radius: 0 12px 12px 0;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .activity-info h3 {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-info p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .activity-date {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ส่วนท้ายเว็บไซต์ (Footer) */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 3.5rem 1.5rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content p {
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .contact-links a {
+            color: var(--white);
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.12);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .contact-links a:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+        }
+
+        /* การแสดงผลบนโทรศัพท์มือถือ (Responsive) */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1.2rem;
+                box-shadow: var(--shadow);
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero-inner {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.1rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .profile-frame {
+                width: 240px;
+                height: 240px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- เมนูนำทาง -->
+    <header>
+        <div class="nav-container">
+            <a href="#home" class="logo">&lt;Edu<span>Code</span>/&gt;</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">หน้าแรก</a></li>
+                <li><a href="#about">แนะนำตัว</a></li>
+                <li><a href="#portfolio">ผลงาน</a></li>
+                <li><a href="#activities">กิจกรรม</a></li>
+                <li><a href="https://github.com/username-example" target="_blank" rel="noopener noreferrer" class="btn-github-nav">GitHub ↗</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 1. ส่วนหน้าแรก -->
+    <section id="home">
+        <div class="hero-inner">
+            <div class="hero-content">
+                <span class="badge">E-Portfolio ครูผู้สอนเทคโนโลยีและคอมพิวเตอร์</span>
+                <h1>สวัสดีครับ ผม<span>ครูต้นกล้า รักการสอน</span></h1>
+                <p>ครูผู้สอนรายวิชาวิทยาการคำนวณและการเขียนโปรแกรม มุ่งมั่นพัฒนาผู้เรียนให้มีทักษะการคิดเชิงคำนวณ สร้างสรรค์นวัตกรรมดิจิทัล และก้าวทันเทคโนโลยีสมัยใหม่</p>
+                <div class="hero-buttons">
+                    <a href="#portfolio" class="btn-primary">ดูผลงานการสอนและโครงงาน</a>
+                    <a href="https://github.com/username-example" target="_blank" rel="noopener noreferrer" class="btn-outline">เปิดดู GitHub ของฉัน</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-frame">
+                    <!-- สามารถเปลี่ยนเป็นแท็ก <img src="profile.jpg" alt="รูปโปรไฟล์"> ได้เมื่อมีรูปจริง -->
+                    <div class="profile-placeholder">
+                        <span style="font-size: 4rem;">👨‍🏫</span>
+                        <strong>นายต้นกล้า รักการสอน</strong>
+                        <small>ครูกลุ่มสาระฯ วิทยาศาสตร์และเทคโนโลยี</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. ส่วนแนะนำตัว -->
+    <section id="about">
+        <div class="section-title">
+            <h2>แนะนำตัว</h2>
+            <p>ประวัติการศึกษา แนวคิดการจัดการเรียนรู้ และความเชี่ยวชาญ</p>
+            <div class="underline"></div>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>ปรัชญาในการจัดการเรียนรู้</h3>
+                <p>เชื่อมั่นว่าการเรียนเขียนโปรแกรมไม่ใช่เพียงแค่การจดจำคำสั่ง แต่คือการฝึกฝนกระบวนการแก้ปัญหาอย่างเป็นระบบ (Computational Thinking) ผ่านการลงมือปฏิบัติจริง (Active Learning) เพื่อให้ผู้เรียนสามารถสร้างชิ้นงานที่แก้ปัญหาในชีวิตประจำวันได้</p>
+                <ul class="info-list">
+                    <li><strong>ชื่อ-นามสกุล:</strong> นายต้นกล้า รักการสอน (ตัวอย่าง)</li>
+                    <li><strong>ตำแหน่ง:</strong> ครูผู้สอนวิชาคอมพิวเตอร์และเทคโนโลยี</li>
+                    <li><strong>สังกัด:</strong> โรงเรียนตัวอย่างวิทยาคม</li>
+                    <li><strong>วุฒิการศึกษา:</strong> ค.บ. / วท.บ. สาขาวิทยาการคอมพิวเตอร์</li>
+                </ul>
+            </div>
+            <div class="skills-box">
+                <h3>ทักษะด้านเทคโนโลยีและการสอน</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python Programming</span>
+                    <span class="skill-tag">HTML / CSS / JavaScript</span>
+                    <span class="skill-tag">Scratch & Block-based</span>
+                    <span class="skill-tag">Micro:bit & IoT</span>
+                    <span class="skill-tag">AI for Education</span>
+                    <span class="skill-tag">Git & GitHub</span>
+                    <span class="skill-tag">Active Learning</span>
+                    <span class="skill-tag">ออกแบบสื่อดิจิทัล</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ส่วนผลงาน -->
+    <section id="portfolio">
+        <div class="portfolio-inner">
+            <div class="section-title">
+                <h2>ผลงานและนวัตกรรมการสอน</h2>
+                <p>สื่อการเรียนรู้ เว็บแอปพลิเคชัน และโครงงานพัฒนาผู้เรียน</p>
+                <div class="underline"></div>
+            </div>
+            <div class="cards-grid">
+                <!-- การ์ดผลงานที่ 1 -->
+                <div class="card">
+                    <div class="card-header-banner">💻</div>
+                    <div class="card-body">
+                        <span class="card-tag">Web Application / สื่อการสอน</span>
+                        <h3>ระบบฝึกเขียนโค้ด Python เบื้องต้น</h3>
+                        <p>เว็บไซต์บทเรียนออนไลน์แบบ Interactive พร้อมแบบฝึกหัดท้ายบท สำหรับนักเรียนระดับชั้นมัธยมศึกษาตอนต้น</p>
+                        <a href="https://github.com/username-example/python-basic-course" target="_blank" rel="noopener noreferrer" class="card-link">ดูซอร์สโค้ดบน GitHub →</a>
+                    </div>
+                </div>
+
+                <!-- การ์ดผลงานที่ 2 -->
+                <div class="card">
+                    <div class="card-header-banner">🤖</div>
+                    <div class="card-body">
+                        <span class="card-tag">IoT & Embedded System</span>
+                        <h3>ชุดกิจกรรมการเรียนรู้ Smart Farm ด้วย Micro:bit</h3>
+                        <p>แผนการจัดการเรียนรู้และชุดทดลองระบบรดน้ำต้นไม้อัตโนมัติ บูรณาการความรู้ด้านโค้ดดิ้งและการเกษตร</p>
+                        <a href="https://github.com/username-example/microbit-smartfarm" target="_blank" rel="noopener noreferrer" class="card-link">ดูรายละเอียดโครงงาน →</a>
+                    </div>
+                </div>
+
+                <!-- การ์ดผลงานที่ 3 -->
+                <div class="card">
+                    <div class="card-header-banner">📊</div>
+                    <div class="card-body">
+                        <span class="card-tag">EdTech Tool</span>
+                        <h3>ระบบสุ่มชื่อและจับกลุ่มนักเรียนในชั้นเรียน</h3>
+                        <p>เว็บแอปพลิเคชันขนาดเล็กช่วยจัดการชั้นเรียน รองรับการนำเข้ารายชื่อและการบันทึกคะแนนการมีส่วนร่วม</p>
+                        <a href="https://github.com/username-example/classroom-picker" target="_blank" rel="noopener noreferrer" class="card-link">ทดลองใช้งาน / GitHub →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ส่วนกิจกรรม -->
+    <section id="activities">
+        <div class="section-title">
+            <h2>กิจกรรมและการพัฒนาตนเอง</h2>
+            <p>การฝึกอบรม การเป็นวิทยากร และการนำนักเรียนเข้าร่วมแข่งขัน</p>
+            <div class="underline"></div>
+        </div>
+        <div class="timeline">
+            <div class="activity-item">
+                <div class="activity-info">
+                    <h3>ครูผู้ฝึกสอนการแข่งขันหุ่นยนต์และเขียนโปรแกรมระดับภาค</h3>
+                    <p>นำนักเรียนเข้าร่วมการแข่งขันสร้างสรรค์ผลงานนวัตกรรมซอฟต์แวร์ ได้รับรางวัลระดับเหรียญทอง</p>
+                </div>
+                <span class="activity-date">ปีการศึกษา 2568</span>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-info">
+                    <h3>วิทยากรอบรมเชิงปฏิบัติการ "การประยุกต์ใช้ AI เพื่อการจัดการเรียนรู้"</h3>
+                    <p>แลกเปลี่ยนเรียนรู้การสร้างสื่อการสอนและใบงานอัตโนมัติให้แก่คณะครูภายในกลุ่มสาระการเรียนรู้</p>
+                </div>
+                <span class="activity-date">สิงหาคม 2568</span>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-info">
+                    <h3>ค่ายเยาวชนนักพัฒนาเว็บไซต์รุ่นเยาว์ (Junior Web Dev Camp)</h3>
+                    <p>จัดกิจกรรมค่ายเสริมทักษะการสร้างเว็บไซต์ด้วย HTML และ CSS ให้แก่นักเรียนที่สนใจด้านเทคโนโลยี</p>
+                </div>
+                <span class="activity-date">พฤษภาคม 2568</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนท้ายเว็บไซต์ (Footer) -->
+    <footer>
+        <div class="footer-content">
+            <h3>ช่องทางการติดต่อและเผยแพร่ผลงาน</h3>
+            <p>ยินดีแลกเปลี่ยนเรียนรู้ด้านการสอนวิทยาการคำนวณ การเขียนโปรแกรม และเทคโนโลยีการศึกษา</p>
+            <div class="contact-links">
+                <a href="https://github.com/username-example" target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+                <a href="mailto:teacher.example@school.ac.th">อีเมล: teacher.example@school.ac.th</a>
+                <a href="#home">กลับขึ้นด้านบน ↑</a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 E-Portfolio ครูผู้สอนเทคโนโลยีและการเขียนโปรแกรม | สร้างด้วย HTML, CSS และ JavaScript
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript สำหรับควบคุมเมนูบนมือถือ -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        // เปิด-ปิดเมนูเมื่อกดปุ่มบนมือถือ
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // ปิดเมนูอัตโนมัติเมื่อคลิกเลือกลิงก์
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
